@@ -8,10 +8,12 @@
     "apps/*"
   ],
   "scripts": {
-    "setup": "cp -n apps/backend/.env.local.example apps/backend/.env.local 2>/dev/null; cp -n apps/frontend/.env.local.example apps/frontend/.env.local 2>/dev/null; npm install",
+    "setup": "cp -n apps/backend/.env.local.example apps/backend/.env.local 2>/dev/null; cp -n apps/frontend/.env.local.example apps/frontend/.env.local 2>/dev/null; npm install && npm run build:packages",
     "start": "npm run setup && npm run dev",
     "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev -w @mubite/backend\" \"npm run dev -w @mubite/frontend\"",
+    "build:packages": "npm run clean:dist && npm run build -w @mubite/shared-types && npm run build -w @mubite/shared-config && npm run build -w @mubite/backend",
     "build": "npm run build --workspaces --if-present",
+    "clean:dist": "rm -rf packages/*/dist apps/*/dist",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",

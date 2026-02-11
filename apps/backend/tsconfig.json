@@ -11,13 +11,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"],
-  "references": [
-    {
-      "path": "../../packages/shared-types"
-    },
-    {
-      "path": "../../packages/shared-config"
-    }
-  ]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
