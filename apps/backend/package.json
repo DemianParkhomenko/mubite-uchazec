@@ -1,0 +1,38 @@
+{
+  "name": "@mubite/backend",
+  "version": "1.0.0",
+  "description": "Express backend for MUBITE application",
+  "main": "./dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mubite/shared-config": "*",
+    "@mubite/shared-types": "*",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.4",
+    "express": "^4.18.0",
+    "helmet": "^7.0.0",
+    "inversify": "^6.0.0",
+    "reflect-metadata": "^0.2.0",
+    "tsconfig-paths": "^4.2.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.0",
+    "@types/express": "^4.17.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^9.0.0",
+    "tsc-alias": "^1.8.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

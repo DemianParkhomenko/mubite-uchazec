@@ -1,0 +1,59 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: apps/backend/Dockerfile
+      target: production
+    container_name: mubite-backend
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      HOST: 0.0.0.0
+      EXTERNAL_API_URL: https://jsonplaceholder.typicode.com
+      EXTERNAL_API_TIMEOUT: 5000
+      LOG_LEVEL: info
+      ALLOWED_ORIGINS: http://localhost:3000
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - mubite-network
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: apps/frontend/Dockerfile
+      target: production
+      args:
+        NEXT_PUBLIC_BACKEND_URL: http://localhost:4000
+    container_name: mubite-frontend
+    dns:
+      - 8.8.8.8
+    environment:
+      NODE_ENV: production
+      BACKEND_URL: http://backend:4000
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:4000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - mubite-network
+
+networks:
+  mubite-network:
+    driver: bridge

@@ -1,0 +1,1 @@
+export { AlbumGallery } from './AlbumGallery';

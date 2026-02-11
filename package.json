@@ -1,0 +1,34 @@
+{
+  "name": "@mubite/monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MUBITE Testing Challenge - Modular Monolith with Next.js and Express",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "setup": "cp -n apps/backend/.env.local.example apps/backend/.env.local 2>/dev/null; cp -n apps/frontend/.env.local.example apps/frontend/.env.local 2>/dev/null; npm install",
+    "start": "npm run setup && npm run dev",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev -w @mubite/backend\" \"npm run dev -w @mubite/frontend\"",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules packages/*/dist apps/*/dist apps/*/.next",
+    "docker:build": "docker compose -f docker/docker-compose.yml build",
+    "docker:up": "docker compose -f docker/docker-compose.yml up",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "docker:dev": "docker compose -f docker/docker-compose.dev.yml up",
+    "docker:dev:down": "docker compose -f docker/docker-compose.dev.yml down"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^5.0.0"
+  }
+}
