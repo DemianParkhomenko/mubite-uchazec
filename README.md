@@ -49,52 +49,45 @@ mubite-uchazec/
 ### Prerequisites
 
 - Node.js 20+
-- Docker & Docker Compose
+- Docker & Docker Compose (optional)
 - npm 10+
 
-### Option 1: Docker (Recommended)
+### Option 1: Local Development (Recommended for Development)
 
-**Production Mode:**
 ```bash
-# Build and start services
+npm start
+```
+
+This single command:
+
+1. Installs all dependencies
+2. Generates `.env.local` files from examples
+3. Builds all shared packages
+4. Starts backend on http://localhost:4000
+5. Starts frontend on http://localhost:3000
+
+**Stop**: Press `Ctrl+C`
+
+### Option 2: Docker Production
+
+```bash
+# Build Docker images
 npm run docker:build
+
+# Start services
 npm run docker:up
+```
 
-# Access the application
-# Frontend: http://localhost:3000
-# Backend: http://localhost:4000
-# Health check: http://localhost:4000/health
+Access the application:
 
-# Stop services
+- Frontend: http://localhost:3000
+- Backend: http://localhost:4000
+- Health check: http://localhost:4000/health
+
+Stop services:
+
+```bash
 npm run docker:down
-```
-
-**Development Mode (with hot reload):**
-```bash
-npm run docker:dev
-
-# Stop
-npm run docker:dev:down
-```
-
-### Option 2: Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build shared packages
-npm run build
-
-# Terminal 1: Start backend
-cd apps/backend
-cp .env.local.example .env.local
-npm run dev
-
-# Terminal 2: Start frontend
-cd apps/frontend
-cp .env.local.example .env.local
-npm run dev
 ```
 
 ## 📋 Features
@@ -117,11 +110,13 @@ npm run dev
 ### Manual Testing
 
 1. **Backend Health Check:**
+
    ```bash
    curl http://localhost:4000/health
    ```
 
 2. **Backend API:**
+
    ```bash
    # Get all albums
    curl http://localhost:4000/api/albums
@@ -191,12 +186,14 @@ npm run build -w @mubite/frontend
 ## 🐳 Docker
 
 ### Production Build
+
 - Multi-stage builds for minimal image size
 - Non-root user for security
 - Health checks for orchestration
 - Optimized layer caching
 
 ### Development Build
+
 - Hot reload with volume mounts
 - Debug port exposed (9229)
 - Source maps enabled
@@ -204,6 +201,7 @@ npm run build -w @mubite/frontend
 ## 📝 Environment Variables
 
 **Backend** (`.env.local`):
+
 ```env
 NODE_ENV=development
 PORT=4000
@@ -213,6 +211,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 **Frontend** (`.env.local`):
+
 ```env
 NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
 ```

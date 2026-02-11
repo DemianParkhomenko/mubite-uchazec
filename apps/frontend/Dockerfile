@@ -49,8 +49,8 @@ COPY --from=builder /app/apps/frontend/.next ./apps/frontend/.next
 COPY --from=builder /app/apps/frontend/public ./apps/frontend/public
 COPY --from=builder /app/apps/frontend/next.config.ts ./apps/frontend/
 
-# Install production dependencies
-RUN npm ci --omit=dev --workspace=@mubite/frontend
+# Install production dependencies (including typescript needed for next.config.ts runtime)
+RUN npm ci --workspace=@mubite/frontend --prefer-offline --no-audit
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
